@@ -78,16 +78,42 @@ class Detector:
                 if self.projectiles[i] is self.projectiles[j]:
                     continue
                 for k in range(len(self.projectiles[i].dx)):
-                    if self.projectiles[j].dx[k] + 0.5*self.projectiles[j].length <= self.projectiles[i].dx[k] - 0.5*self.projectiles[i].length >= self.projectiles[j].dx[k] - 0.5*self.projectiles[j].length and \
-                       self.projectiles[j].dy[k] + 0.5*self.projectiles[j].width <= \
-                       self.projectiles[i].dy[k] - 0.5*self.projectiles[i].width >= \
-                       self.projectiles[j].dy[k] - 0.5*self.projectiles[j].width and \
-                       self.projectiles[j].dz[k] + 0.5*self.projectiles[j].height <= \
-                       self.projectiles[i].dz[k] - 0.5*self.projectiles[i].height >= \
-                       self.projectiles[j].dz[k] - 0.5*self.projectiles[j].height:
+                    """
+                    proj: stands for Projectile object
+                    i: for the first object
+                    j: for the second object
+                    r: stands for "Rear", i.e. the point minus the dimension/2 
+                    f: stands for "Front", i.e. the point plus the dimension/2 
+                    x, y, z: cartesian coordinates
+                    """
+                    # projectile i volume boundaries
+                    proj_i_r_x = self.projectiles[i].dx[k] - 0.5 * self.projectiles[i].length
+                    proj_i_f_x = self.projectiles[i].dx[k] + 0.5 * self.projectiles[i].length
+                    proj_i_r_y = self.projectiles[i].dy[k] - 0.5 * self.projectiles[i].width
+                    proj_i_f_y = self.projectiles[i].dy[k] + 0.5 * self.projectiles[i].width
+                    proj_i_r_z = self.projectiles[i].dz[k] - 0.5 * self.projectiles[i].height
+                    proj_i_f_z = self.projectiles[i].dz[k] + 0.5 * self.projectiles[i].height
+                    # projectile j volume boundaries
+                    proj_j_r_x = self.projectiles[j].dx[k] - 0.5 * self.projectiles[j].length
+                    proj_j_f_x = self.projectiles[j].dx[k] + 0.5 * self.projectiles[j].length
+                    proj_j_r_y = self.projectiles[j].dy[k] - 0.5 * self.projectiles[j].width
+                    proj_j_f_y = self.projectiles[j].dy[k] + 0.5 * self.projectiles[j].width
+                    proj_j_r_z = self.projectiles[j].dz[k] - 0.5 * self.projectiles[j].height
+                    proj_j_f_z = self.projectiles[j].dz[k] + 0.5 * self.projectiles[j].height
+
+                    if proj_j_r_x <= proj_i_f_x <= proj_j_f_x and \
+                       proj_j_r_y <= proj_i_f_y <= proj_j_f_y and \
+                       proj_j_r_z <= proj_i_f_z <= proj_j_f_z:
                         self.num_collisions += 1
                         temp_point = [self.projectiles[i].dx[k], self.projectiles[i].dy[k], self.projectiles[i].dz[k]]
                         self.collisions_coords.append(temp_point)
+                    elif proj_j_r_x <= proj_i_r_x <= proj_j_f_x and \
+                            proj_j_r_y <= proj_i_r_y <= proj_j_f_y and \
+                            proj_j_r_z <= proj_i_r_z <= proj_j_f_z:
+                        self.num_collisions += 1
+                        temp_point = [self.projectiles[i].dx[k], self.projectiles[i].dy[k], self.projectiles[i].dz[k]]
+                        self.collisions_coords.append(temp_point)
+
         if self.num_collisions == 0 and len(self.collisions_coords) == 0:
             return False
         else:
