@@ -1,4 +1,4 @@
-#   File name: collisions.py
+#   File name: SIM_Collisions.py
 #   Author: Nawaf Abdullah
 #   Creation Date: 31/May/2018
 #   Description: Detects collision trajectories in a population of 'Projectile' objects
@@ -26,13 +26,13 @@ class Detector:
         self.num_collisions = 0
         self.collisions_coords = list()
 
-    def add_projectile(self, i_projectile_list):
+    def add_projectile(self, i_projectile):
         """
         Adds a Projectile object to the detector's list.
             - User must create the object first then add it using this method
-        :param i_projectile_list: object to be added to the detector
+        :param i_projectile: object to be added to the detector
         """
-        self.projectiles.append(i_projectile_list)
+        self.projectiles.append(i_projectile)
 
     def del_projectile(self, i_key):
         """
