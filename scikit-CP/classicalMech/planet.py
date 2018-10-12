@@ -44,6 +44,25 @@ class Planet:
             self.dy.append(self.dy[i] + self.vy[i + 1] * self.dt)
         return self.dx, self.dy
 
+    def r_i(self, i):
+        """
+        :param: the number of the current time step point
+        :return: distance from the center of the system
+        """
+        r_i = sqrt((self.dx[i]**2) + (self.dy[i]**2))
+        return r_i
+
+    def r_ab_i(self, i, planet_b):
+        """
+        :param i: the number of the current time step point
+        :param planet_b: The other planet which the distance is being calculated from
+        :return: distance of both objects from the center of the system.
+        """
+        x_temp = (self.dx[i] - planet_b.dx[i])**2
+        y_temp = (self.dy[i] - planet_b.dy[i])**2
+        r_ab_i = sqrt(x_temp + y_temp)
+        return r_ab_i
+
     def init_params(self, i_x, i_y, i_m, i_dt, i_vx=0, i_vy=0):
         """
         Changes the parameters for the planet object

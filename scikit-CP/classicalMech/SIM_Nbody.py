@@ -2,6 +2,8 @@
 #   Author: Nawaf Abdullah
 #   Creation Date: 9/October/2018
 #   Description: numerical simulation of the n-body problem for multiple n-bodies.
+from math import sqrt
+from classicalMech import planet
 
 
 class System:
@@ -16,6 +18,7 @@ class System:
             else:
                 raise ValueError("Value passed is not a list of Projectile types")
         self.ms = i_ms
+        self.new_bodies = None
 
     def add_body(self, i_body):
         """
@@ -38,7 +41,8 @@ class System:
             else:
                 continue
 
-    def calc_system(self):
+    def calc_system(self, n):
         """
         Calculate the trajectory of n-bodies in the system.
         """
+        
