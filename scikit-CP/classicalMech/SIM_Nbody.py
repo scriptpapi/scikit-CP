@@ -1,48 +1,84 @@
 #   File name: SIM_Nbody.py
 #   Author: Nawaf Abdullah
 #   Creation Date: 9/October/2018
-#   Description: numerical simulation of the n-body problem for multiple n-bodies.
-from math import sqrt
+#   Description: numerical simulation of the n-body problem.
+
 from classicalMech import planet
+import matplotlib.pyplot as plt
+
+
+PI = 3.14159
 
 
 class System:
-    def __init__(self, i_ms, i_body_list=None):
+    def __init__(self, i_ms, i_planet=None):
         """
-        :param i_body_list: list containing the n-body objects in the system.
+        initialize system with a start and a planet
+        :param i_planet: planet object
         :param i_ms: mass of the system's star
         """
-        if i_body_list is not None:
-            if i_body_list is list:
-                self.n_bodies = i_body_list
-            else:
-                raise ValueError("Value passed is not a list of Projectile types")
         self.ms = i_ms
-        self.new_bodies = None
+        self.planets = i_planet
 
-    def add_body(self, i_body):
+    def add_planet(self, i_planet):
         """
-        Adds an n-body object to the system's list.
-            - User must create the object first then add it using this method
-        :param i_body: object to be added to the system
+        adds a planet to the system
+        :param i_planet: planet object
         """
-        self.n_bodies.append(i_body)
+        self.planets.append(i_planet)
 
-    def del_projectile(self, i_key):
+    def del_planet(self, key):
         """
-        Deletes an n-body object from the system
-        :param i_key: the key that specifies the object to be deleted
+        deletes a planet from the system
+        :param key: used to specify the planet object to be deleted
         """
-        for i in range(len(self.n_bodies)):
-            if self.n_bodies[i].getKey() == i_key:
-                del self.n_bodies[i]
-            elif self.n_bodies[i].getKey() != i_key and i <= len(self.n_bodies):
-                raise ValueError("Key not found")
+        for i in range(len(self.planets)):
+            if self.planets[i].get_key() == key:
+                del self.planets[i]
+            elif self.planets[i].get_key() != key and i <= len(self.planets):
+                raise ValueError("Object not found, key may be incorrect")
             else:
                 continue
 
-    def calc_system(self, n):
+    def calc_system(self, n, dt):
         """
-        Calculate the trajectory of n-bodies in the system.
+        Calculates system orbits
+        :param n: number of time steps
+        :param dt: time step size
         """
-        
+        for i in range(len(self.planets)):
+            for j in range(n):
+                t_vx = self.planets[i].vx[j] - ((4*PI*PI*self.planets[i].dx[j]*dt)/(self.planets[i].R_i(j)**3))
+                t_vy = self.planets[i].vy[j] - ((4*PI*PI*self.planets[i].dy[j]*dt)/(self.planets[i].R_i(j)**3))
+                for k in range(len(self.planets)):
+                    if k == i:
+                        continue
+                    else:
+                        m = (self.planets[k].m/self.ms)
+                        dx = (self.planets[i].dx[j] - self.planets[k].dx[j])
+                        dy = (self.planets[i].dy[j] - self.planets[k].dy[j])
+                        t_vx -= (4*PI*PI*m*dx*dt) / self.planets[i].R_ab_i(self.planets[j])**3
+                        t_vy -= (4*PI*PI*m*dy*dt) / self.planets[i].R_ab_i(self.planets[j])**3
+                self.planets[i].vx.append(t_vx)
+                self.planets[i].vy.append(t_vy)
+                self.planets[i].dx.append(self.planets[i].dx[j] + self.planets[i].vx[j+1]*dt)
+                self.planets[i].dy.append(self.planets[i].dy[j] + self.planets[i].vy[j+1]*dt)
+
+    def plot(self):
+        """
+        Plot the trajectories of the planets in the solar system
+        """
+        for i in range(self.planets):
+            plt.plot(self.planets[i].dx, self.planets[i].dy)
+
+    def output_txt(self):
+        """
+        outputs data to a text file
+        :return: None
+        """
+        data = open("solar_system.txt", "a")
+        for i in range(len(self.planets)):
+            i_data = "Planet [" + str(i) + "]"
+            for j in range(len(self.planets[i].dx)):
+                i_data = "[i=" + str(j)+"]"+"[x]: " + str(self.planets[i].dx[j]) + "[y]: " + str(self.planets[i].dy[j])
+            data.write(i_data)
