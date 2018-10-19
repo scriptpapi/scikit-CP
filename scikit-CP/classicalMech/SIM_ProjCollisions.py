@@ -1,7 +1,7 @@
-#   File name: SIM_Collisions.py
+#   File name: SIM_ProjCollisions.py
 #   Author: Nawaf Abdullah
 #   Creation Date: 31/May/2018
-#   Description: Detects collision trajectories in a population of 'Projectile' objects
+#   Description: Simulate and Detect collision trajectories in a population of 'Projectile' objects
 
 from classicalMech.projectile import Projectile2D, Projectile3D
 from datetime import datetime

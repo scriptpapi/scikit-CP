@@ -1,7 +1,7 @@
-#   File name: SIM_Nbody.py
+#   File name: SIM_SolarSys.py
 #   Author: Nawaf Abdullah
 #   Creation Date: 9/October/2018
-#   Description: numerical simulation of the n-body problem.
+#   Description: numerical simulation of the n-body problem of a solar system
 
 from classicalMech import planet
 import matplotlib.pyplot as plt
