@@ -165,5 +165,3 @@ class Oscillator:
         plt.xlabel("Position (radians)")
         plt.plot(self.S, self.O)
         plt.show()
-
-
