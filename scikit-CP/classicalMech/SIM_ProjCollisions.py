@@ -7,6 +7,7 @@ from classicalMech.projectile import Projectile2D, Projectile3D
 from datetime import datetime
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import types
 
 
 class Detector:
@@ -15,7 +16,7 @@ class Detector:
         :param i_projectile_list: List of Projectile objects passed to the collision detector
         """
         if i_projectile_list is not None:
-            if i_projectile_list is list:
+            if isinstance(i_projectile_list, list) :
                 self.projectiles = i_projectile_list
             else:
                 raise ValueError("Value passed is not a list of Projectile types")
@@ -32,7 +33,10 @@ class Detector:
             - User must create the object first then add it using this method
         :param i_projectile: object to be added to the detector
         """
-        self.projectiles.append(i_projectile)
+        if i_projectile == [0]:
+            raise ValueError("Trajectory of the projectile must be calculated first!")
+        else:
+            self.projectiles.append(i_projectile)
 
     def del_projectile(self, i_key):
         """
@@ -133,14 +137,14 @@ class Detector:
         """
         return self.collisions_coords
 
-    def scatter_2d(self):
+    def collisions_2d(self):
         """
         Plots the location of each collisions in 2D
         """
         plt.scatter(self.collisions_coords[:][0], self.collisions_coords[:][1])
         plt.show()
 
-    def scatter_3d(self):
+    def collisions_3d(self):
         """
         Plots the location of each collisions in 3D
         """
@@ -153,7 +157,8 @@ class Detector:
         """
         ax = plt.axes(projection='3d')
         for i in range(len(self.projectiles)):
-            ax.plot3D(self.projectiles[i].dx, self.projectiles[i].dy, self.projectiles[i].dz, 'gray')
+            i_key = self.projectiles[i].key
+            ax.plot3D(self.projectiles[i].dx, self.projectiles[i].dy, self.projectiles[i].dz, label=str(i_key))
         ax.legend()
         plt.show()
 
@@ -167,3 +172,16 @@ class Detector:
         for i in range(self.num_collisions):
             data_str = "Collision at " + str(self.collisions_coords[i])
             data.write(data_str)
+
+
+proj1 = Projectile3D(100, 45, 10)
+proj1.trajectory_vacuum(1000, 0.1)
+
+proj2 = Projectile3D(100, 45, 45)
+proj2.set_init_coordinates(100, 100, 0)
+proj2.trajectory_vacuum(1000, 0.1)
+
+projL = [proj1, proj2]
+
+sys1 = Detector(projL)
+sys1.plot_collision_course()
