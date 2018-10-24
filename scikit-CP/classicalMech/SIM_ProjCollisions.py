@@ -172,16 +172,3 @@ class Detector:
         for i in range(self.num_collisions):
             data_str = "Collision at " + str(self.collisions_coords[i])
             data.write(data_str)
-
-
-proj1 = Projectile3D(100, 45, 10)
-proj1.trajectory_vacuum(1000, 0.1)
-
-proj2 = Projectile3D(100, 45, 45)
-proj2.set_init_coordinates(100, 100, 0)
-proj2.trajectory_vacuum(1000, 0.1)
-
-projL = [proj1, proj2]
-
-sys1 = Detector(projL)
-sys1.plot_collision_course()
