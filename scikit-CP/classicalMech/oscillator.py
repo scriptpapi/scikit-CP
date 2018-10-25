@@ -85,7 +85,7 @@ class Oscillator:
         :return: position (self.S) velocity (self.O)
         """
         for i in range(num_steps):
-            o_f = self.O[i]-dt*((g/self.length)*sin(self.S[i]+self.q*self.O[i]+self.Fd*sin(self.Od*self.t[i])))
+            o_f = self.O[i]-dt*((g/self.length)*sin(self.S[i]) + self.q*self.O[i] + self.Fd*sin(self.Od*self.t[i]))
             self.O.append(o_f)
             self.S.append(self.S[i]+self.O[i+1]*dt)
             self.E.append(self.E[i]+0.5*(self.O[i+1]**2+self.S[i+1]**2))
@@ -165,3 +165,11 @@ class Oscillator:
         plt.xlabel("Position (radians)")
         plt.plot(self.S, self.O)
         plt.show()
+
+
+"""
+#   Example use case
+m = Oscillator(i_length=9.8, i_ang=0.2, i_o=0, i_damp=0.5, ohm_d=0.66, f_d=1.2)
+m.oscillate(1000, 0.04)
+m.plot()
+"""
