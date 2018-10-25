@@ -6,13 +6,15 @@ from math import sqrt
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
-
+from itertools import count
 
 #   constants
 PI = 3.14159265359
 
 
 class Planet:
+    _ids = count(0)
+
     def __init__(self, i_m, x_i, y_i, vx_i=0, vy_i=0, i_key=None):
         """
         :param i_m: mass
@@ -22,12 +24,16 @@ class Planet:
         :param vy_i: initial y velocity
         :param i_key: key string that can be used identify the object in a list or a tree
         """
+        self.id = next(self._ids)
         self.m = i_m
         self.dx = [x_i]
         self.dy = [y_i]
         self.vx = [vx_i]
         self.vy = [vy_i]
-        self.key = i_key
+        if i_key is None:
+            self.key = "planet " + str(self.id)
+        else:
+            self.key = i_key
 
     def orbit(self, n, dt):
         """
@@ -100,7 +106,7 @@ class Planet:
         """
         :param i_key: set key identifying object. must be a string.
         """
-        if i_key is isinstance(i_key, str):
+        if isinstance(i_key, str) is True:
             self.key = i_key
         else:
             raise ValueError("Key value must be a string.")
