@@ -3,10 +3,11 @@
 #   Creation Date: 9/October/2018
 #   Description: numerical simulation of the n-body problem of a solar system
 
-from classicalMech import planet
+from classicalMech.planet import Planet
 import matplotlib.pyplot as plt
 
 
+# Constants
 PI = 3.14159
 
 
@@ -18,7 +19,10 @@ class System:
         :param i_ms: mass of the system's star
         """
         self.ms = i_ms
-        self.planets = i_planet
+        if i_planet is not None:
+            self.planets = i_planet
+        else:
+            self.planets = list()
 
     def add_planet(self, i_planet):
         """
@@ -46,30 +50,35 @@ class System:
         :param n: number of time steps
         :param dt: time step size
         """
-        for i in range(len(self.planets)):
-            for j in range(n):
-                t_vx = self.planets[i].vx[j] - ((4*PI*PI*self.planets[i].dx[j]*dt)/(self.planets[i].R_i(j)**3))
-                t_vy = self.planets[i].vy[j] - ((4*PI*PI*self.planets[i].dy[j]*dt)/(self.planets[i].R_i(j)**3))
-                for k in range(len(self.planets)):
-                    if k == i:
+
+        for j in range(n):
+            for A in self.planets:
+                i = len(A.vx) - 1
+                sys_vx = A.vx[i] - (4 * PI * PI * A.dx[i] * dt) / (A.R_i(i) ** 3)
+                sys_vy = A.vy[i] - (4 * PI * PI * A.dy[i] * dt) / (A.R_i(i) ** 3)
+                for B in self.planets:
+                    if A is B:
                         continue
                     else:
-                        m = (self.planets[k].m/self.ms)
-                        dx = (self.planets[i].dx[j] - self.planets[k].dx[j])
-                        dy = (self.planets[i].dy[j] - self.planets[k].dy[j])
-                        t_vx -= (4*PI*PI*m*dx*dt) / self.planets[i].R_ab_i(self.planets[j])**3
-                        t_vy -= (4*PI*PI*m*dy*dt) / self.planets[i].R_ab_i(self.planets[j])**3
-                self.planets[i].vx.append(t_vx)
-                self.planets[i].vy.append(t_vy)
-                self.planets[i].dx.append(self.planets[i].dx[j] + self.planets[i].vx[j+1]*dt)
-                self.planets[i].dy.append(self.planets[i].dy[j] + self.planets[i].vy[j+1]*dt)
+                        M = B.m / self.ms
+                        dx = A.dx[i] - B.dx[i]
+                        dy = A.dy[i] - B.dy[i]
+                        sys_vx -= (4 * PI * PI * M * dx * dt) / (A.R_ab_i(i, B))
+                        sys_vy -= (4 * PI * PI * M * dy * dt) / (A.R_ab_i(i, B))
+                A.vx.append(sys_vx)
+                A.vy.append(sys_vy)
+                A.dx.append(A.dx[i] + A.vx[i + 1] * dt)
+                A.dy.append(A.dy[i] + A.vy[i + 1] * dt)
 
     def plot(self):
         """
         Plot the trajectories of the planets in the solar system
         """
-        for i in range(self.planets):
-            plt.plot(self.planets[i].dx, self.planets[i].dy)
+        for i in range(len(self.planets)):
+            i_key = self.planets[i].get_key()
+            plt.plot(self.planets[i].dx, self.planets[i].dy, label=str(i_key))
+        plt.legend()
+        plt.show()
 
     def output_txt(self):
         """
@@ -82,3 +91,19 @@ class System:
             for j in range(len(self.planets[i].dx)):
                 i_data = "[i=" + str(j)+"]"+"[x]: " + str(self.planets[i].dx[j]) + "[y]: " + str(self.planets[i].dy[j])
             data.write(i_data)
+
+
+"""
+#   test case
+sys = System(500000)
+pl1 = Planet(4, 1, -1, 0, 2)
+sys.add_planet(pl1)
+pl2 = Planet(2, -2, -2, -0.8, 0.2)
+sys.add_planet(pl2)
+pl3 = Planet(3, -1, -1, 2, 0)
+sys.add_planet(pl3)
+pl4 = Planet(10, 1.5, 1.5, 1.5, -0.5)
+sys.add_planet(pl4)
+sys.calc_system(10000, 0.001)
+sys.plot()
+"""
