@@ -18,8 +18,9 @@ class EField:
         self.V1 = 1
         self.V2 = -1
         self.z_switch = False
-        self.E_2d = np.zeros((self.dim, self.dim))
-        self.E_3d = np.zeros((self.dim, self.dim, self.dim))
+        self.E_x = []
+        self.E_y = []
+        self.E_z = []
 
     def set_capacitor_lines(self, L1, L2, V1, V2, D, W1=1, W2=1):
         """
@@ -73,7 +74,6 @@ class EField:
         pos2 = int((self.dim / 2) - (D / 2))
         self.V_3d[pos1:pos1 + W1, center - L1:center + L1, center - L1:center+L1] = self.V1
         self.V_3d[pos2:pos2 + W2, center - L2:center + L2, center - L2:center+L2] = self.V2
-        # print(self.V_3d)
 
     def surface_potential(self, num_iter):
         """
@@ -109,30 +109,41 @@ class EField:
                                           V[i][j + 1][k] + V[i][j - 1][k] +
                                           V[i][j][k + 1] + V[i][j][k - 1]) * (1/6)
         self.V_3d = V
-        # print(self.V_3d)
         return self.V_3d
 
-    def surface_field(self):
+    def surface_field(self, ds):
         """
         calculates the electric field on surface
+        :param ds: step size for Electric field calculation
         """
-        E = self.E_2d
         V = self.V_2d
         for i in range(1, self.dim-1):
             for j in range(1, self.dim-1):
-                if V[i+1][j] > V[i][j]:
-                    E[i][j] = (V[i+1][j] - V[i-1][j]) * (1/2)
-                else:
+                if V[i][j] == self.V1 or V[i][j] == self.V2:
                     continue
-        self.E_2d = E
+                else:
+                    self.E_x.append(-1 * ((V[i - 1][j] - V[i + 1][j]) * (1 / (2 * ds))))
+                    self.E_y.append(-1 * ((V[i][j - 1] - V[i][j + 1]) * (1 / (2 * ds))))
+        return [self.E_x, self.E_y]
 
-    def space_field(self, num_iter):
+    def space_field(self, ds):
         """
         calculates the electric field in space
-        :param num_iter: number of iterations of the numerical method calculations
+        :param ds: step size for Electric field calculation
         """
+        V = self.V_3d
+        for i in range(1, self.dim-1):
+            for j in range(1, self.dim-1):
+                for k in range(1, self.dim-1):
+                    if V[i][j][k] == self.V1 or V[i][j][k] == self.V2:
+                        continue
+                    else:
+                        self.E_x.append(-1 * ((V[i - 1][j][k] - V[i + 1][j][k]) * (1 / (2 * ds))))
+                        self.E_y.append(-1 * ((V[i][j - 1][k] - V[i][j + 1][k]) * (1 / (2 * ds))))
+                        self.E_z.append(-1 * ((V[i][j][k - 1] - V[i][j][k + 1]) * (1 / (2 * ds))))
+        return [self.E_x, self.E_y, self.E_z]
 
-    def plot_potential(self):
+    def plot_potential_surface(self):
         """
         Plots the potential field.
         """
@@ -155,12 +166,10 @@ class EField:
         """
         plots the electric field lines.
         """
-
-
-"""
-fld = EField(40)
-fld.set_capacitor_lines(38, 38, 1, -1, 38, 1, 1)
-fld.surface_potential(100)
-fld.surface_field()
-fld.plot_field()
-"""
+        if self.z_switch is True:
+            ax = plt.axes(projection='3d')
+            ax.plot3D(self.E_x, self.E_y, self.E_z, 'gray')
+            plt.show()
+        else:
+            plt.plot(self.E_x, self.E_y)
+            plt.show()
