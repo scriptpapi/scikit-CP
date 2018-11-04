@@ -15,7 +15,7 @@ class Walker:
 
     def __init__(self):
         self.id = next(self._ids)
-        self.zSwitch = False
+        self.z_switch = False
         self.x = [0]
         self.y = [0]
         self.z = [0]
@@ -42,7 +42,7 @@ class Walker:
             else:
                 self.x.append(self.x[i] - 1)
             self.y.append(self.y[i] + 1)
-        self.zSwitch = False
+        self.z_switch = False
         return self.x, self.y
 
     def walk_2D(self, num_steps):
@@ -65,7 +65,7 @@ class Walker:
             else:
                 self.y.append(self.y[i] - 1)
                 self.x.append(self.x[i])
-        self.zSwitch = False
+        self.z_switch = False
         return self.x, self.y
 
     def walk_3D(self, num_steps):
@@ -100,7 +100,7 @@ class Walker:
                 self.z.append(self.z[i] - 1)
                 self.x.append(self.x[i])
                 self.y.append(self.y[i])
-        self.zSwitch = True
+        self.z_switch = True
         return self.x, self.y, self.z
 
     def plot(self):
