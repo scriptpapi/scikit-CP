@@ -14,9 +14,6 @@ class Walker:
     g_visited = []
 
     def __init__(self):
-        """
-        :param i_size: size of space the walker move around in
-        """
         self.id = next(self._ids)
         self.z_switch = False
         self.x = [0]
