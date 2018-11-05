@@ -11,6 +11,7 @@ import numpy as np
 
 class Walker:
     _ids = count(0)
+    g_visited = []
 
     def __init__(self):
         """
@@ -70,13 +71,18 @@ class Walker:
         self.z_switch = False
         return self.x, self.y
 
-    def saw_2d(self, num_steps):
+    def saw_2d(self, num_steps, avoid_all=False):
         """
         Calculates self avoiding walker path in 2D
         :param num_steps: number of steps
+        :param avoid_all: Enables/disables avoiding the paths of other walker instances, as opposed to just self-avoid
         :return: the walker path in 2D: self.x, self.y
         """
-        visited = []
+
+        if avoid_all is True:
+            visited = self.g_visited
+        else:
+            visited = []
         for i in range(num_steps - 1):
             r = random.randint(0, 100)
             if r <= 25:
@@ -115,6 +121,8 @@ class Walker:
                     self.y.append(self.y[i] - 1)
                     self.x.append(self.x[i])
                     visited.append((self.x[i], self.y[i] - 1))
+        if avoid_all is True:
+            self.g_visited = visited
         self.z_switch = False
         print(len(self.x), len(self.y))
         return self.x, self.y
@@ -154,13 +162,19 @@ class Walker:
         self.z_switch = True
         return self.x, self.y, self.z
 
-    def saw_3d(self, num_steps):
+    def saw_3d(self, num_steps, avoid_all):
         """
         Calculates self avoiding walker path in 3D
         :param num_steps: number of steps
+        :param avoid_all: Enables/disables avoiding the paths of other walker instances, as opposed to just self-avoid
         :return: the walker path in 3D: self.x, self.y, self.z
         """
-        visited = []
+
+        if avoid_all is True:
+            visited = self.g_visited
+        else:
+            visited = []
+
         for i in range(num_steps-1):
             r = random.randint(0, 100)
             # -------------------------- +X --------------------------#
@@ -255,8 +269,4 @@ class Walker:
             plt.plot(self.x, self.y)
             plt.show()
 
-
-bob = Walker()
-bob.saw_3d(5000)
-bob.plot()
 
