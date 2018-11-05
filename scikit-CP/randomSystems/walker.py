@@ -13,12 +13,25 @@ class Walker:
     _ids = count(0)
     g_visited = []
 
-    def __init__(self):
+    def __init__(self, xi=0, yi=0, zi=0, i_key=None):
+        """
+        :param xi: initial x position
+        :param yi: initial y position
+        :param zi: initial z position
+        :param i_key: instance identification key
+        """
         self.id = next(self._ids)
         self.z_switch = False
-        self.x = [0]
-        self.y = [0]
-        self.z = [0]
+        self.x = [xi]
+        self.y = [yi]
+        self.z = [zi]
+        if i_key is None:
+            self.key = "walker " + str(self.id)
+        else:
+            if isinstance(i_key, str):
+                self.key = i_key
+            else:
+                raise TypeError("Key value must be a string type")
 
     def reset(self):
         """
@@ -248,6 +261,16 @@ class Walker:
                     visited.append((self.x[i], self.y[i], self.z[i] - 1))
         self.z_switch = True
         return self.x, self.y, self.z
+
+    def set_key(self, i_key):
+        """
+        sets a key for Walker instance which can be used later to identify it
+        :param i_key: key as a string
+        """
+        if isinstance(i_key, str):
+            self.key = i_key
+        else:
+            raise TypeError("Key must be a string value")
 
     def plot(self):
         """
