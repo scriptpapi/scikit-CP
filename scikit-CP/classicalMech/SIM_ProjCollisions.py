@@ -16,7 +16,7 @@ class Detector:
         :param i_projectile_list: List of Projectile objects passed to the collision detector
         """
         if i_projectile_list is not None:
-            if isinstance(i_projectile_list, list) :
+            if isinstance(i_projectile_list, list):
                 self.projectiles = i_projectile_list
             else:
                 raise ValueError("Value passed is not a list of Projectile types")
