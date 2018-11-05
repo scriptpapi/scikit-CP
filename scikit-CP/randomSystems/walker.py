@@ -77,11 +77,7 @@ class Walker:
         :return: the walker path in 2D: self.x, self.y
         """
         visited = []
-
-        for i in range(num_steps-1):
-            # print("index:", i)
-            # print("rangeX: ", len(self.x) - 1)
-            # print("rangeY: ", len(self.y) - 1)
+        for i in range(num_steps - 1):
             r = random.randint(0, 100)
             if r <= 25:
                 if (self.x[i] + 1, self.y[i]) in visited:
@@ -120,6 +116,7 @@ class Walker:
                     self.x.append(self.x[i])
                     visited.append((self.x[i], self.y[i] - 1))
         self.z_switch = False
+        print(len(self.x), len(self.y))
         return self.x, self.y
 
     def walk_3d(self, num_steps):
@@ -157,6 +154,90 @@ class Walker:
         self.z_switch = True
         return self.x, self.y, self.z
 
+    def saw_3d(self, num_steps):
+        """
+        Calculates self avoiding walker path in 3D
+        :param num_steps: number of steps
+        :return: the walker path in 3D: self.x, self.y, self.z
+        """
+        visited = []
+        for i in range(num_steps-1):
+            r = random.randint(0, 100)
+            # -------------------------- +X --------------------------#
+            if r <= 16.66:
+                if (self.x[i] + 1, self.y[i], self.z[i]) in visited:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i])
+                    self.z.append(self.z[i])
+                    continue
+                else:
+                    self.x.append(self.x[i] + 1)
+                    self.y.append(self.y[i])
+                    self.z.append(self.z[i])
+                    visited.append((self.x[i] + 1, self.y[i], self.z[i]))
+            # -------------------------- -X --------------------------#
+            elif 16.66 < r <= 33.32:
+                if (self.x[i] - 1, self.y[i], self.z[i]) in visited:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i])
+                    self.z.append(self.z[i])
+                    continue
+                else:
+                    self.x.append(self.x[i] - 1)
+                    self.y.append(self.y[i])
+                    self.z.append(self.z[i])
+                    visited.append((self.x[i] - 1, self.y[i], self.z[i]))
+            # -------------------------- +Y --------------------------#
+            elif 33.32 < r <= 49.98:
+                if (self.x[i], self.y[i] + 1, self.z[i]) in visited:
+                    self.y.append(self.y[i])
+                    self.x.append(self.x[i])
+                    self.z.append(self.z[i])
+                    continue
+                else:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i] + 1)
+                    self.z.append(self.z[i])
+                    visited.append((self.x[i], self.y[i] + 1, self.z[i]))
+            # -------------------------- -Y --------------------------#
+            elif 49.98 < r <= 66.64:
+                if (self.x[i], self.y[i] - 1, self.z[i]) in visited:
+                    self.y.append(self.y[i])
+                    self.x.append(self.x[i])
+                    self.z.append(self.z[i])
+                    continue
+                else:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i] - 1)
+                    self.z.append(self.z[i])
+                    visited.append((self.x[i], self.y[i] - 1, self.z[i]))
+            # -------------------------- +Z --------------------------#
+            elif 66.64 < r < 83.33:
+                if (self.x[i], self.y[i], self.z[i] + 1) in visited:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i])
+                    self.z.append(self.z[i])
+                    continue
+                else:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i])
+                    self.z.append(self.z[i] + 1)
+                    visited.append((self.x[i], self.y[i], self.z[i] + 1))
+            # -------------------------- -Z --------------------------#
+            else:
+                if (self.x[i], self.y[i], self.z[i] - 1) in visited:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i])
+                    self.z.append(self.z[i])
+                    continue
+                else:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i])
+                    self.z.append(self.z[i] + 1)
+                    visited.append((self.x[i], self.y[i], self.z[i] - 1))
+        self.z_switch = True
+        return self.x, self.y, self.z
+
     def plot(self):
         """
 
@@ -176,6 +257,6 @@ class Walker:
 
 
 bob = Walker()
-bob.saw_2d(500)
+bob.saw_3d(5000)
 bob.plot()
 
