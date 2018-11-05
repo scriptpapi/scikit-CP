@@ -2,18 +2,20 @@
 #   Author: Nawaf Abdullah
 #   Creation Date: 19/Mar/2018
 #   Description: Modeling of the random walker problem in 1D, 2D and 3D
-
-
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import random
 from itertools import count
+import numpy as np
 
 
 class Walker:
     _ids = count(0)
 
     def __init__(self):
+        """
+        :param i_size: size of space the walker move around in
+        """
         self.id = next(self._ids)
         self.z_switch = False
         self.x = [0]
@@ -28,7 +30,7 @@ class Walker:
         del self.y[:]
         del self.z[:]
 
-    def walk_1D(self, num_steps):
+    def walk_1d(self, num_steps):
         """
         Calculates the walker path in 1D over time steps
             - In this method, the y-axis (self.y) is used as a time axis
@@ -45,7 +47,7 @@ class Walker:
         self.z_switch = False
         return self.x, self.y
 
-    def walk_2D(self, num_steps):
+    def walk_2d(self, num_steps):
         """
         Calculates the walker path in 2D
         :param num_steps: number of steps
@@ -68,7 +70,59 @@ class Walker:
         self.z_switch = False
         return self.x, self.y
 
-    def walk_3D(self, num_steps):
+    def saw_2d(self, num_steps):
+        """
+        Calculates self avoiding walker path in 2D
+        :param num_steps: number of steps
+        :return: the walker path in 2D: self.x, self.y
+        """
+        visited = []
+
+        for i in range(num_steps-1):
+            # print("index:", i)
+            # print("rangeX: ", len(self.x) - 1)
+            # print("rangeY: ", len(self.y) - 1)
+            r = random.randint(0, 100)
+            if r <= 25:
+                if (self.x[i] + 1, self.y[i]) in visited:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i])
+                    continue
+                else:
+                    self.x.append(self.x[i] + 1)
+                    self.y.append(self.y[i])
+                    visited.append((self.x[i] + 1, self.y[i]))
+            elif 25 < r <= 50:
+                if (self.x[i] - 1, self.y[i]) in visited:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i])
+                    continue
+                else:
+                    self.x.append(self.x[i] - 1)
+                    self.y.append(self.y[i])
+                    visited.append((self.x[i] - 1, self.y[i]))
+            elif 50 < r <= 75:
+                if (self.x[i], self.y[i] + 1) in visited:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i])
+                    continue
+                else:
+                    self.y.append(self.y[i] + 1)
+                    self.x.append(self.x[i])
+                    visited.append((self.x[i], self.y[i] + 1))
+            else:
+                if (self.x[i], self.y[i] - 1) in visited:
+                    self.x.append(self.x[i])
+                    self.y.append(self.y[i])
+                    continue
+                else:
+                    self.y.append(self.y[i] - 1)
+                    self.x.append(self.x[i])
+                    visited.append((self.x[i], self.y[i] - 1))
+        self.z_switch = False
+        return self.x, self.y
+
+    def walk_3d(self, num_steps):
         """
         Calculates the walker path in 3D
         :param num_steps: number of steps
@@ -108,7 +162,7 @@ class Walker:
 
         Plots the walker's path in 2D or 3D
         """
-        if self.zSwitch is True:
+        if self.z_switch is True:
             ax = plt.axes(projection='3d')
             ax.plot3D(self.x, self.y, self.z, 'gray')
             plt.show()
@@ -119,3 +173,9 @@ class Walker:
             plt.ylabel("y-position")
             plt.plot(self.x, self.y)
             plt.show()
+
+
+bob = Walker()
+bob.saw_2d(500)
+bob.plot()
+
