@@ -5,20 +5,16 @@
 import numpy as np
 from random import randint
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from matplotlib import style
 
 
 class Substance:
-
     def __init__(self, i_size):
         """
         :param i_size: size of diffusion volume
         """
         self.dim = i_size
-        self.D_2d = np.zeros((self.dim, self.dim))
-        self.D_3d = np.zeros((self.dim, self.dim, self.dim))
-        self.temp_N = None
+        self.D_2d = None
+        self.D_3d = None
         self.z_switch = False
 
     def add_mass_2d(self, mass_size):
@@ -26,6 +22,7 @@ class Substance:
         Adds mass to be diffused to the 2D grid
         :param mass_size: size of the mass in the grid
         """
+        self.D_2d = np.zeros((self.dim, self.dim))
         m = int(mass_size/2)
         center = int(self.dim/2)
         self.D_2d[center - m: center + m, center - m: center + m] = 1
@@ -36,6 +33,7 @@ class Substance:
         Adds mass to be diffused to the 3D grid
         :param mass_size: size of the mass in the grid
         """
+        self.D_3d = np.zeros((self.dim, self.dim, self.dim))
         m = int(mass_size / 2)
         center = int(self.dim / 2)
         self.D_3d[center - m: center + m, center - m: center + m, center - m: center + m] = 1
@@ -46,7 +44,6 @@ class Substance:
         :param num_iter: number of the time steps
         :return: numpy array of final position of the masses
         """
-        self.temp_N = num_iter
         D = self.D_2d
         for n in range(num_iter):
             for i in range(1, self.dim - 1):
