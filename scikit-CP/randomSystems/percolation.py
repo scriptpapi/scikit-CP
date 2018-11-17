@@ -89,7 +89,7 @@ class Fluid:
 
 """
 # Example use case
-example = Fluid(50, 0.6)
+example = Fluid(110, 0.6)
 example.percolate()
 example.detect_clusters()
 example.plot()
