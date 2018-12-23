@@ -83,9 +83,7 @@ class Fluid:
     def plot(self):
         plt.pcolormesh(self.percolation)
         plt.grid(True)
-        plt.colorbar()
         plt.show()
-
 
 """
 # Example use case
