@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="scikit-CP",
-    version="0.0.1",
+    version="1.0.0",
     author="Nawaf Abdullah",
     author_email="nawaf97k@gmail.com",
     description="Computational physics simulation and modeling python scientific library",
