@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/scikit-CP.svg)](https://badge.fury.io/py/scikit-CP)
+
 # scikit-CP
 scikit-CP is a computational physics simulation and modeling python scientific library. It is intended
 for students or scientists seeking to integrate physics computational solutions into their python 
