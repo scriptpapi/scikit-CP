@@ -1,0 +1,9 @@
+site_name: scikit-CP Manual
+repo_url: https://github.com/MentalN/scikit-CP
+theme: readthedocs
+pages:
+- Home : index.md
+
+markdown_extensions:
+- toc:
+    permalink: True
