@@ -12,6 +12,18 @@ Below is the currently available stable classes and simulation scripts, more are
 Contributions are welcomed, but they mus follow the format of the project and be coded either as a 
 simulation script or a class file for a physical object. A contribution tutorial is coming soon.
 
+# Installation
+The easiest way to use scikit-CP in your project is by adding it using your IDE's package manager:
+
+In *PyCharm*, this would be by going to File > Settings > Project: <yourprojectname> > Project Interpreter > Install, and then searching for sciki-CP and clicking on Install Package.
+
+In *Atom*, this would be by going to Settings > Install tab > and then searching for the package.
+
+You can also just install the package to your environment using pip3:
+```
+$pip3 install scikit-CP
+```
+
 ### Classical Mechanics
 Classes:
  + Oscillator
