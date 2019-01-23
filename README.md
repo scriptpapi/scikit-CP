@@ -2,7 +2,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![](https://img.shields.io/appveyor/ci/MentalN/scikit-CP.svg)
 
-![alt text](https://github.com/MentalN/scikitcplogo.png)
+![alt text](https://github.com/MentalN/scikit-CP/blob/master/scikitcplogo.png)
 
 
 # scikit-CP
