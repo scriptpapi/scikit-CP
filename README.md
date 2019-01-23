@@ -53,6 +53,7 @@ Simulation scripts:
  
  # Maintenance
 scikit-CP is continuosly maintained, and new physics areas and features will be always added.
+
 For Any bug encountered, please raise a new issue through the issue tracker.
  
  
