@@ -1,5 +1,5 @@
 [![PyPI version](https://badge.fury.io/py/scikit-CP.svg)](https://badge.fury.io/py/scikit-CP)
-![](https://img.shields.io/pypi/pyversions/scikit-CP.svg?style=plastic)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # scikit-CP
 scikit-CP is a computational physics simulation and modeling python scientific library. It is intended
