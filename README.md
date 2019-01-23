@@ -7,11 +7,6 @@ scikit-CP is a computational physics simulation and modeling python scientific l
 for students or scientists seeking to integrate physics computational solutions into their python 
 projects. It is written in and only compatible with Python 3. 
 
-# Available modules
-Below is the currently available stable classes and simulation scripts, more are on the way.
-Contributions are welcomed, but they mus follow the format of the project and be coded either as a 
-simulation script or a class file for a physical object. A contribution tutorial is coming soon.
-
 # Installation
 The easiest way to use scikit-CP in your project is by adding it using your IDE's package manager:
 
@@ -23,6 +18,11 @@ You can also just install the package to your environment using pip:
 ```
 $pip3 install scikit-CP
 ```
+
+# Available modules
+Below is the currently available stable classes and simulation scripts, more are on the way.
+Contributions are welcomed, but they mus follow the format of the project and be coded either as a 
+simulation script or a class file for a physical object. A contribution tutorial is coming soon.
 
 ### Classical Mechanics
 Classes:
