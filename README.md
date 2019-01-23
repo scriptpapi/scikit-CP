@@ -54,5 +54,5 @@ Simulation scripts:
  
  # See Also 
  Here are also other great projects that inspired scikit-CP to be made:
-  + [scikit-Bio](https://github.com/biocore/scikit-bio)
-  + [scikit-Aero](https://github.com/AeroPython/scikit-aero)
+  + [scikit-bio](https://github.com/biocore/scikit-bio)
+  + [scikit-aero](https://github.com/AeroPython/scikit-aero)
