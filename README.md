@@ -47,8 +47,3 @@ Classes:
  
 Simulation scripts:
  + Random Walker Population
-
-
-# Documentation:
-Coming soon on readthedocs.io
-
