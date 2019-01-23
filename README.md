@@ -19,7 +19,7 @@ In *PyCharm*, this would be by going to File > Settings > Project: <yourprojectn
 
 In *Atom*, this would be by going to Settings > Install tab > and then searching for the package.
 
-You can also just install the package to your environment using pip3:
+You can also just install the package to your environment using pip:
 ```
 $pip3 install scikit-CP
 ```
