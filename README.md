@@ -19,7 +19,7 @@ In *Atom*, this would be by going to Settings > Install tab > and then searching
 
 You can also just install the package to your environment using pip:
 ```
-$pip3 install scikit-CP
+$ pip3 install scikit-CP
 ```
 
 # Available modules
