@@ -241,7 +241,7 @@ class Projectile3D:
         """
         for i in range(num_steps):
             if altitude is True:
-                P = P_o*(1-(6.5e-3*self.dy[i]/T_o))**2.5
+                P = P_o*(1-(6.5e-3*self.dz[i]/T_o))**2.5
                 alt_coefficient = P/P_o
             else:
                 alt_coefficient = 1
