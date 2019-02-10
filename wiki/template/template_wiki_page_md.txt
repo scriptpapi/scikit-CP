@@ -1,0 +1,15 @@
+Description
+
+
+# Numerical Method:
+
+![](Link for the math image)
+
+# Usage Example:
+
+```
+# Standard plot
+
+```
+
+![](Link for the plot sample)
