@@ -7,6 +7,8 @@ This is where your use the numeircal method or algorithim that was used for the 
 
 
 # Usage Example:
+Here your where you provide a code sample, maybe with a plot, as an example for how the script works.
+
 
 ```
 # Standard plot
